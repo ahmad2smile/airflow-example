@@ -1,0 +1,5 @@
+FROM postgres:9.6
+
+ENV POSTGRES_USER=airflow
+ENV POSTGRES_PASSWORD=airflow
+ENV POSTGRES_DB=airflow
