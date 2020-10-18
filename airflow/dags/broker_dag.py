@@ -27,7 +27,7 @@ def publish_results(params, **_):
     queue_name = params['queue_name']
     if queue_name:
         response = requests.post(
-            url='http://airflow-server/publish', data={'queueName': queue_name, 'data': {'message': 'some data'}}, headers={"Content-Type": "application/json"})
+            url='http://airflow-server:3005/publish', data={'queueName': queue_name, 'data': {'message': 'some data'}}, headers={"Content-Type": "application/json"})
         print('=================Published Results=================')
         print(response.status_code)
     else:

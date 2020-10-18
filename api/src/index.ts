@@ -8,23 +8,25 @@ const app = express();
 const AIRFLOW_QUEUE = "airflow_queue";
 
 app.use("/trigger", async (req: Request, res: Response) => {
-	const brokerService = await BrokerService.getInstance();
+	try {
+		const brokerService = await BrokerService.getInstance();
 
-	const queueName = uuid();
+		const queueName = uuid();
 
-	await brokerService.send(
-		AIRFLOW_QUEUE,
-		JSON.stringify({
-			message: {
+		await brokerService.send(
+			AIRFLOW_QUEUE,
+			JSON.stringify({
 				dagId: "amqp_dag",
 				data: { conf: { queue_name: queueName } }
-			}
-		})
-	);
+			})
+		);
 
-	const queueMessage = await brokerService.getMessage(queueName);
+		const queueMessage = await brokerService.getMessage(queueName);
 
-	res.json({ response: { data: queueMessage.content } });
+		res.json({ response: { data: queueMessage.content } });
+	} catch (error) {
+		res.status(400).json({ error: { message: error.message } });
+	}
 });
 
 const PORT = process.env.PORT || 3005;

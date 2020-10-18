@@ -9,10 +9,17 @@ export class BrokerService {
 	private _channel: Channel;
 
 	async init() {
-		this._connection = await amqp.connect(
-			"amqp://admin:password@rabbitmq:5672"
-		);
-		this._channel = await this._connection.createChannel();
+		try {
+			this._connection = await amqp.connect(
+				"amqp://admin:password@rabbitmq:5672"
+			);
+			this._channel = await this._connection.createChannel();
+		} catch (error) {
+			console.log("==================================");
+			console.log(error);
+			console.log((error.message || "").inclues("ECONNREFUSED"));
+			console.log("==================================");
+		}
 	}
 
 	static async getInstance() {
@@ -41,6 +48,8 @@ export class BrokerService {
 		if (!this._connection) {
 			await this.init();
 		}
+
+		await this._channel.assertQueue(queue, { durable: true });
 
 		return new Promise((resolve) => {
 			this._channel.consume(queue, resolve, { noAck: true });

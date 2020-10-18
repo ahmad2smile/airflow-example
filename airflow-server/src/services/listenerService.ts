@@ -15,15 +15,29 @@ export class ListenerService {
 		this._brokerService = await BrokerService.getInstance();
 
 		while (true) {
-			const queueMessage = await this._brokerService.getMessage(
-				this._queueName
-			);
+			try {
+				const queueMessage = await this._brokerService.getMessage(
+					this._queueName
+				);
 
-			const { dagId, data } = JSON.parse(
-				queueMessage.content.toString()
-			) as IRequest;
+				const { dagId, data } = JSON.parse(
+					queueMessage.content.toString()
+				) as IRequest;
 
-			triggerDag(dagId, data);
+				triggerDag(dagId, data).catch((err) => {
+					console.log("==================================");
+					console.log(
+						JSON.stringify({ error: err.message }, undefined, 4)
+					);
+					console.log("==================================");
+				});
+			} catch (error) {
+				console.log("==================================");
+				console.log(
+					JSON.stringify({ error: error.message }, undefined, 4)
+				);
+				console.log("==================================");
+			}
 		}
 	}
 }

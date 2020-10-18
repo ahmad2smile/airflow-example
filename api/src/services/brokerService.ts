@@ -42,6 +42,8 @@ export class BrokerService {
 			await this.init();
 		}
 
+		await this._channel.assertQueue(queue, { durable: true });
+
 		return new Promise((resolve) => {
 			this._channel.consume(queue, resolve, { noAck: true });
 
