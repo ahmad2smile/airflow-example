@@ -11,13 +11,12 @@ export class BrokerService {
 	async init() {
 		try {
 			this._connection = await amqp.connect(
-				"amqp://admin:password@rabbitmq:5672"
+				"amqp://admin:password@rabbitmq"
 			);
 			this._channel = await this._connection.createChannel();
 		} catch (error) {
 			console.log("==================================");
 			console.log(error);
-			console.log((error.message || "").inclues("ECONNREFUSED"));
 			console.log("==================================");
 		}
 	}

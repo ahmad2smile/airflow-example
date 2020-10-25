@@ -25,14 +25,14 @@ export class ListenerService {
 				) as IRequest;
 
 				triggerDag(dagId, data).catch((err) => {
-					console.log("==================================");
+					console.log("============triggerDag===========");
 					console.log(
 						JSON.stringify({ error: err.message }, undefined, 4)
 					);
 					console.log("==================================");
 				});
 			} catch (error) {
-				console.log("==================================");
+				console.log("==============getMessage==========");
 				console.log(
 					JSON.stringify({ error: error.message }, undefined, 4)
 				);

@@ -17,7 +17,7 @@ app.use("/trigger", async (req: Request, res: Response) => {
 			AIRFLOW_QUEUE,
 			JSON.stringify({
 				dagId: "amqp_dag",
-				data: { conf: { queue_name: queueName } }
+				data: { conf: { op_kwargs: { queue_name: queueName } } }
 			})
 		);
 

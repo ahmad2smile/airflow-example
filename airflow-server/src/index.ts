@@ -15,6 +15,10 @@ app.post("/publish", async (req: Request, res: Response) => {
 	res.json({ response: { data: "success" } });
 });
 
+app.post("/health", async (req: Request, res: Response) => {
+	res.json({ response: { data: "live" } });
+});
+
 const PORT = process.env.PORT || 3005;
 
 app.listen(PORT, () => {

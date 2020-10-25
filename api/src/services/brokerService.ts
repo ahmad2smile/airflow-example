@@ -10,7 +10,7 @@ export class BrokerService {
 
 	async init() {
 		this._connection = await amqp.connect(
-			"amqp://admin:password@rabbitmq:5672"
+			"amqp://admin:password@rabbitmq"
 		);
 		this._channel = await this._connection.createChannel();
 	}
